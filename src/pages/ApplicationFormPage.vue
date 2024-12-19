@@ -136,9 +136,9 @@ export default {
     },
 
     getObjectUrl(file) {
-      return file ? URL.createObjectURL(file) : ""; // สร้าง URL สำหรับแสดงไฟล์ผลงาน
+      return file ? URL.createObjectURL(file) : ""; // สร้าง URL สำหรับแสดงไฟล์ที่อัปโฆลเอกสาร
     },
-    
+
     // ถอดข้อความจากรูปภาพ
     extractTextFromImage(file) {
       const formData = new FormData();

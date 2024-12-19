@@ -98,6 +98,7 @@
 
 .address p {
   margin-bottom: 10px;
+  margin-left: 50px;
 }
 
 .icon-address, .icon {
