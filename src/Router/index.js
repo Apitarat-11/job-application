@@ -4,6 +4,8 @@ import HomePage from '@/pages/HomePage.vue';
 import ApplicationFormPage from '@/pages/ApplicationFormPage.vue';
 import AboutPage from '@/pages/AboutPage.vue';
 import ContactPage from '@/pages/ContactPage.vue';
+import SummaryPage from '@/pages/SummaryPage.vue';
+
 
 const routes = [
     {
@@ -29,6 +31,13 @@ const routes = [
         name: 'applicationform',
         component: ApplicationFormPage
     },
+
+    {
+        path: '/summary',
+        name: 'summary',
+        component: SummaryPage
+    },
+    
 ];
 
 const router = createRouter({

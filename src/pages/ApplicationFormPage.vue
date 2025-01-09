@@ -116,20 +116,24 @@ export default {
   },
   methods: {
     handleFileChange(event) {
+      console.log("รูปภาพที่อัปโหลด:", event.target.files[0]); // 1
       const file = event.target.files[0];
       if (file && file.type.startsWith("image/")) {
         this.uploadedImage = file;
         this.imagePreviewUrl = URL.createObjectURL(file); // สร้าง URL สำหรับแสดงภาพตัวอย่าง
+        console.log("URL ภาพตัวอย่าง:", this.imagePreviewUrl); // 2
         this.extractTextFromImage(file);
       } else {
-        this.errorMessage = "กรุณาอัปโหลดไฟล์รูปภาพเท่านั้น";
+        this.errorMessage = "กรุณาอัปโหลดไฟล์เอกสารหรือรูปภาพเท่านั้น";
       }
     },
 
     handlePortfolioChange(event) {
+      console.log("ไฟล์ผลงานที่อัปโหลด:", event.target.files); // 3
       const files = event.target.files;
       if (files.length) {
         this.portfolioFiles = Array.from(files); // รับไฟล์ผลงานที่อัปโหลด
+        console.log("ไฟล์ผลงาน:", this.portfolioFiles); // 4
       } else {
         this.portfolioFiles = [];
       }
@@ -146,8 +150,10 @@ export default {
       formData.append("libs", "gc-vision");
 
       this.isLoading = true;
-      this.errorMessage = "";
+
       this.extractedText = "";
+
+      this.errorMessage = "";
 
       axios
         .post(
@@ -160,6 +166,7 @@ export default {
           }
         )
         .then((response) => {
+          console.log("ผลลัพธ์จาก API OCR:", response.data); // 4
           // ตรวจสอบว่ามีข้อความถอดออกมาหรือไม่
           if (
             response.data &&
@@ -170,11 +177,12 @@ export default {
               .map((item) => `${item.type}: ${item.value}`)
               .join("\n");
           } else {
-            this.errorMessage = "ไม่พบข้อความในรูปภาพ";
+            this.errorMessage = "ไม่พบข้อความในรูปภาพ! กรุณาลองใหม่อีกครั้ง";
           }
           this.isLoading = false;
         })
         .catch((error) => {
+          console.error("เกิดข้อผิดพลาดจาก API OCR:", error); // 5
           if (error.response) {
             this.errorMessage = `เกิดข้อผิดพลาดจากเซิร์ฟเวอร์: ${
               error.response.data.message || error.message
@@ -223,7 +231,7 @@ export default {
         !this.formData.phone ||
         !this.uploadedImage
       ) {
-        this.errorMessage = "กรุณากรอกข้อมูลให้ครบถ้วนและอัปโหลดบัตรประชาชน";
+        this.errorMessage = "กรุณากรอกข้อมูลให้ครบถ้วนและอัปโหลดภาพบัตรประชาชน";
         return;
       }
 
@@ -247,6 +255,7 @@ export default {
           },
         })
         .then((response) => {
+          console.log("ผลลัพธ์จากการส่งแบบฟอร์ม:", response.data); // 6
           if (response.status === 200) {
             alert("สมัครงานสำเร็จ");
             this.resetForm();
@@ -255,6 +264,7 @@ export default {
           }
         })
         .catch((error) => {
+          console.error("เกิดข้อผิดพลาดในการส่งแบบฟอร์ม:", error); // 7
           this.errorMessage =
             "เกิดข้อผิดพลาดในการสมัครงาน: " +
             (error.response?.data?.message || error.message);
